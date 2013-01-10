@@ -1,5 +1,5 @@
 //
-//  AFincStoreIssue.h
+//  Tag.h
 //  AFincStoreIssue
 //
 //  Created by Matthias Wessendorf on 1/10/13.
@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-@interface AFincStoreIssue : NSObject
+
+@interface Tag : NSManagedObject
+
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSNumber * tagId;
 
 @end
