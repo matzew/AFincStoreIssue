@@ -16,3 +16,10 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+
+# CocoaPods
+##Podfile.lock
+##Pods/
+
+#Docset/AppleDoc
+*/Docset/*
