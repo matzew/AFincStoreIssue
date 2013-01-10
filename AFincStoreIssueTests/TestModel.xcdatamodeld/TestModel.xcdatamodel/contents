@@ -9,9 +9,10 @@
         <attribute name="project" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="taskId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Task" positionX="160" positionY="192" width="128" height="103"/>
         <element name="Tag" positionX="160" positionY="-117" width="128" height="73"/>
+        <element name="Task" positionX="160" positionY="192" width="128" height="120"/>
     </elements>
 </model>

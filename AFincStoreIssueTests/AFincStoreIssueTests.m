@@ -52,7 +52,7 @@
     [super tearDown];
 }
 
-- (void)testFetchTags
+- (void)xtestFetchTags
 {
     NSManagedObjectContext *context = __managedObjectContext;
     
@@ -98,7 +98,7 @@
         NSArray *fetchedObjects = [userInfo objectForKey:@"AFIncrementalStoreFetchedObjectsKey"];
         
         for(Task *task in fetchedObjects) {
-            NSLog(@"Task(%@) -> title: %@ (desc: '%@')", task.taskId, task.title, task.desc);
+            NSLog(@"Task(%@) -> title: %@ (desc: '%@')", task.taskId, task.title, task.tags);
         }
         _finishedFlag = YES;
     }];

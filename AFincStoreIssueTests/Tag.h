@@ -12,7 +12,7 @@
 
 @interface Tag : NSManagedObject
 
-@property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSNumber * tagId;
+@property (nonatomic, retain) NSString * title;
 
 @end

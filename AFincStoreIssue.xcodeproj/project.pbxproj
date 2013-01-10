@@ -22,8 +22,8 @@
 		A0DF5A94169F0E8B00608A00 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0DF5A93169F0E8B00608A00 /* CoreData.framework */; };
 		A0DF5A96169F0E9A00608A00 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0DF5A95169F0E9A00608A00 /* MobileCoreServices.framework */; };
 		A0DF5A9A169F0F1400608A00 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0DF5A99169F0F1400608A00 /* SystemConfiguration.framework */; };
-		A0DF5A9D169F109500608A00 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = A0DF5A9C169F109500608A00 /* Task.m */; };
-		A0DF5AA0169F109500608A00 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = A0DF5A9F169F109500608A00 /* Tag.m */; };
+		A0F91DFD169F26490062788F /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F91DFC169F26490062788F /* Task.m */; };
+		A0F91E01169F26490062788F /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F91E00169F26490062788F /* Tag.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,10 +69,10 @@
 		A0DF5A95169F0E9A00608A00 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		A0DF5A97169F0EA800608A00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		A0DF5A99169F0F1400608A00 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		A0DF5A9B169F109500608A00 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
-		A0DF5A9C169F109500608A00 /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
-		A0DF5A9E169F109500608A00 /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
-		A0DF5A9F169F109500608A00 /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
+		A0F91DFB169F26490062788F /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
+		A0F91DFC169F26490062788F /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
+		A0F91DFF169F26490062788F /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
+		A0F91E00169F26490062788F /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
 		BD545B434B9F4AD2BB6DCC45 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		DEAD537B33054E6FAF166324 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE46A0CDAFF3441DB85AB7CD /* Pods-AFincStoreIssueTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AFincStoreIssueTests.xcconfig"; path = "Pods/Pods-AFincStoreIssueTests.xcconfig"; sourceTree = SOURCE_ROOT; };
@@ -169,10 +169,10 @@
 				A0DF5A69169EE9AF00608A00 /* AFincStoreIssueTests.h */,
 				A0DF5A6A169EE9AF00608A00 /* AFincStoreIssueTests.m */,
 				A0DF5A64169EE9AF00608A00 /* Supporting Files */,
-				A0DF5A9B169F109500608A00 /* Task.h */,
-				A0DF5A9E169F109500608A00 /* Tag.h */,
-				A0DF5A9F169F109500608A00 /* Tag.m */,
-				A0DF5A9C169F109500608A00 /* Task.m */,
+				A0F91DFB169F26490062788F /* Task.h */,
+				A0F91DFF169F26490062788F /* Tag.h */,
+				A0F91E00169F26490062788F /* Tag.m */,
+				A0F91DFC169F26490062788F /* Task.m */,
 				A0DF5A7A169EEC7500608A00 /* TestModel.xcdatamodeld */,
 			);
 			path = AFincStoreIssueTests;
@@ -326,8 +326,8 @@
 			files = (
 				A0DF5A6B169EE9AF00608A00 /* AFincStoreIssueTests.m in Sources */,
 				A0DF5A7C169EEC7500608A00 /* TestModel.xcdatamodeld in Sources */,
-				A0DF5A9D169F109500608A00 /* Task.m in Sources */,
-				A0DF5AA0169F109500608A00 /* Tag.m in Sources */,
+				A0F91DFD169F26490062788F /* Task.m in Sources */,
+				A0F91E01169F26490062788F /* Tag.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

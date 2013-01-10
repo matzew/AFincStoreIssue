@@ -11,7 +11,7 @@
 
 @implementation Tag
 
-@dynamic title;
 @dynamic tagId;
+@dynamic title;
 
 @end
