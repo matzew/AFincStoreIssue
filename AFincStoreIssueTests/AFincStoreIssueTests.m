@@ -98,9 +98,9 @@
         NSArray *fetchedObjects = [userInfo objectForKey:@"AFIncrementalStoreFetchedObjectsKey"];
         
         for(Task *task in fetchedObjects) {
-            NSLog(@"Task(%@) -> title: %@ (desc: '%@')", task.taskId, task.title, task.tags);
+            NSLog(@"Task(%@) -> title: %@ (desc: '%@')", task.taskId, task.title, task.desc);
         }
-        _finishedFlag = YES;
+        //_finishedFlag = YES;
     }];
     
     [context executeFetchRequest:fetchRequest error:&error];

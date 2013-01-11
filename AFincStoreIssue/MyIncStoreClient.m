@@ -129,6 +129,10 @@
     // BUT... for the TAG entity..... we just get the ID (number).....  (here 31)
     // Unfortunately there was NO request gone to /tags ...........
     
+    if ([entity.name isEqualToString:@"Tag"]) {
+        representation = [NSDictionary dictionaryWithObjectsAndKeys:representation, @"id", nil];
+    }
+    
     NSMutableDictionary *mutablePropertyValues = [[super attributesForRepresentation:representation ofEntity:entity fromResponse:response] mutableCopy];
     if ([entity.name isEqualToString:@"Tag"]) {
         NSString *tagId = [representation valueForKey:@"id"];
@@ -143,6 +147,10 @@
 
     
     return mutablePropertyValues;
+}
+
+-(BOOL)shouldFetchRemoteAttributeValuesForObjectWithID:(NSManagedObjectID *)objectID inManagedObjectContext:(NSManagedObjectContext *)context {
+    return YES;
 }
 
 // hrm.... but the requestWithMethod:pathForRelationship is NOT inviked....
