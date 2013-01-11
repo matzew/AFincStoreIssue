@@ -44,7 +44,14 @@
 
 
 
+
+#pragma mark AFIncrementalStoreHTTPClient
+
+
 /////      AFIncrementalStoreHTTPClient     functions.........
+
+
+
 
 
 -(NSDictionary *)representationsForRelationshipsFromRepresentation:(NSDictionary *)representation ofEntity:(NSEntityDescription *)entity fromResponse:(NSHTTPURLResponse *)response {
@@ -56,28 +63,12 @@
             if ([name isEqualToString:@"tags"])
             {
                 
-                /// hrm.......... this just adds the IDs......
+                /// hrm the 'tags' field in the JSON contains ONLY the tag ids...
+                // .......... this just adds the IDs......
+                
+                // not sure if that is really correct........
                 NSArray *orderIDs = [representation objectForKey:@"tags"];
                 [relationshipReps setObject:orderIDs forKey:name];
-                
-
-                /// shouldnt it go and look up the /tags URI,
-                /// to filter those TAG objects, that we want ???
-                
-                
-                
-                
-//                NSLog(@"\n\n%@\n\n", [[representation objectForKey:@"tags"] class]);
-//                NSLog(@"\n\n%@\n\n", [representation objectForKey:@"tags"]);
-//                if (orderIDs) {
-//                    NSMutableArray *orderReps = [[NSMutableDictionary dictionaryWithCapacity:orderIDs.count] array];
-//
-//                    for (NSString *orderID in orderIDs) {
-//                                            NSLog(@"\n\n%@\n\n\n", orderID);
-//                        [orderReps addObject:[NSDictionary dictionaryWithObjectsAndKeys:orderID, @"id", nil]];
-//                    }
-//                    [relationshipReps setObject:orderReps forKey:name];
-//                }
             }
         }
     }];
@@ -88,20 +79,40 @@
     return relationshipReps;
 }
 
-// never invoked........
--(NSMutableURLRequest *)requestWithMethod:(NSString *)method pathForRelationship:(NSRelationshipDescription *)relationship forObjectWithID:(NSManagedObjectID *)objectID withContext:(NSManagedObjectContext *)context {
-    NSLog(@"\n\nrequestWithMethod\n\n");
-    return [super requestWithMethod:method pathForRelationship:relationship forObjectWithID:objectID withContext:context];
+/**
+ * The default for AFIS is to fetch relations from something like:
+ *
+ * ```/entityPlural/{id}/relationship```
+ *
+ * But, we don't support that - instead we have flat URIs...:
+ *
+ * ```/entityPlural```
+ *
+ * So we just use the name of the relationship as the URI....
+ *
+ */
+- (NSString *)pathForRelationship:(NSRelationshipDescription *)relationship
+                        forObject:(NSManagedObject *)object {
     
-    
+    // if the relationship is named 'tags' the URI would be /tags
+    return relationship.name;
 }
 
+
 -(NSString *)resourceIdentifierForRepresentation:(NSDictionary *)representation ofEntity:(NSEntityDescription *)entity fromResponse:(NSHTTPURLResponse *)response {
-    // ODD... we only have the referenced ID here...
-    // I was expecting a JSON response of the /tags URI.......
+    
+    // when parsing the 'tags' field, on the /tasks request, we are only having the referenced ID here...
+    // if NOT overriding this, I get an exception, because 'allKeys' is called on the __NSCFNumber (-> the referenced id)
+    
+    
+    // Not sure why... but I was expecting a JSON response of another request against  /tags URI (to look up the details of the
+    // referenced items.....
     if ([entity.name isEqualToString:@"Tag"]) {
+        
+        // hack... see above comment...
         return [representation description];
     } else {
+        // for Task entity we are OK in using the default...
         return [super resourceIdentifierForRepresentation:representation ofEntity:entity fromResponse:response];
     }
 }
@@ -114,22 +125,23 @@
     NSLog(@"\n\nattributesForRepresentation ->%@\n", representation);
     
     // For the TASK entity, we get [something like:]
-//    {
-//        date = "2012-01-20";
-//        description = "my wife's birthday";
-//        id = 86;
-//        project = 71;
-//        tags =     (
-//                    31
-//                    );
-//        title = hb;
-//    } 
+    //    {
+    //        date = "2012-01-20";
+    //        description = "my wife's birthday";
+    //        id = 86;
+    //        project = 71;
+    //        tags =     (
+    //                    31
+    //                    );
+    //        title = hb;
+    //    }
     
-
-    // BUT... for the TAG entity..... we just get the ID (number).....  (here 31)
+    
+    // BUT...
+    // for the TAG entity..... we just get the ID (number).....
     // Unfortunately there was NO request gone to /tags ...........
-    
-    if ([entity.name isEqualToString:@"Tag"]) {
+    if ([representation isKindOfClass:[NSNumber class]]) {
+        // hrm...... I need to put the ID (number) into a dictionary????
         representation = [NSDictionary dictionaryWithObjectsAndKeys:representation, @"id", nil];
     }
     
@@ -142,21 +154,19 @@
         [mutablePropertyValues setValue:description forKey:@"desc"];
         NSString *taskId = [representation valueForKey:@"id"];
         [mutablePropertyValues setValue:taskId forKey:@"taskId"];
-
+        
     }
-
+    
     
     return mutablePropertyValues;
 }
 
--(BOOL)shouldFetchRemoteAttributeValuesForObjectWithID:(NSManagedObjectID *)objectID inManagedObjectContext:(NSManagedObjectContext *)context {
-    return YES;
-}
-
-// hrm.... but the requestWithMethod:pathForRelationship is NOT inviked....
 -(BOOL)shouldFetchRemoteValuesForRelationship:(NSRelationshipDescription *)relationship forObjectWithID:(NSManagedObjectID *)objectID inManagedObjectContext:(NSManagedObjectContext *)context {
     return YES;
 }
 
+//-(BOOL)shouldFetchRemoteAttributeValuesForObjectWithID:(NSManagedObjectID *)objectID inManagedObjectContext:(NSManagedObjectContext *)context {
+//    return YES;
+//}
 
 @end

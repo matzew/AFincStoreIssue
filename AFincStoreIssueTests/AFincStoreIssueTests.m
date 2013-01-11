@@ -22,7 +22,7 @@
     
     // flag to abort:
     BOOL _finishedFlag;
-
+    
 }
 
 - (void)setUp
@@ -33,7 +33,7 @@
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     NSURL *url = [bundle URLForResource:@"TestModel" withExtension:@"momd"];
     __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
-
+    
     
     // pass it to the Store.....
     [MyIncStore setModel:__managedObjectModel];
@@ -52,37 +52,37 @@
     [super tearDown];
 }
 
-- (void)xtestFetchTags
-{
-    NSManagedObjectContext *context = __managedObjectContext;
-    
-    
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Tag"
-                                              inManagedObjectContext:context];
-    [fetchRequest setEntity:entity];
-    NSError *error = nil;
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"AFIncrementalStoreContextDidFetchRemoteValues" object:context queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        NSDictionary *userInfo = [note userInfo];
-        NSArray *fetchedObjects = [userInfo objectForKey:@"AFIncrementalStoreFetchedObjectsKey"];
-        
-        for(Tag *tag in fetchedObjects) {
-            NSLog(@"Tag(%@) -> title: %@", tag.tagId, tag.title);
-        }
-        
-        _finishedFlag = YES;
-    }];
-    
-    [context executeFetchRequest:fetchRequest error:&error];
-    
-    // keep the run loop going
-    while(!_finishedFlag) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-    }
-}
-
+//- (void)xtestFetchTags
+//{
+//    NSManagedObjectContext *context = __managedObjectContext;
+//
+//
+//
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Tag"
+//                                              inManagedObjectContext:context];
+//    [fetchRequest setEntity:entity];
+//    NSError *error = nil;
+//
+//    [[NSNotificationCenter defaultCenter] addObserverForName:@"AFIncrementalStoreContextDidFetchRemoteValues" object:context queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+//        NSDictionary *userInfo = [note userInfo];
+//        NSArray *fetchedObjects = [userInfo objectForKey:@"AFIncrementalStoreFetchedObjectsKey"];
+//
+//        for(Tag *tag in fetchedObjects) {
+//            NSLog(@"Tag(%@) -> title: %@", tag.tagId, tag.title);
+//        }
+//
+//        _finishedFlag = YES;
+//    }];
+//
+//    [context executeFetchRequest:fetchRequest error:&error];
+//
+//    // keep the run loop going
+//    while(!_finishedFlag) {
+//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+//    }
+//}
+//
 - (void)testFetchTasks
 {
     NSManagedObjectContext *context = __managedObjectContext;
@@ -99,8 +99,15 @@
         
         for(Task *task in fetchedObjects) {
             NSLog(@"Task(%@) -> title: %@ (desc: '%@')", task.taskId, task.title, task.desc);
+            
+            for(Tag *tag in task.tags) {
+                NSLog(@"YO!!! \n\n%@\n\n", tag.title);
+            }
+            
         }
+        
         //_finishedFlag = YES;
+        
     }];
     
     [context executeFetchRequest:fetchRequest error:&error];

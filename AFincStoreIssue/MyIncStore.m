@@ -32,7 +32,7 @@ NSManagedObjectModel *___model;
 
 // override the library Getter:
 - (id <AFIncrementalStoreHTTPClient>)HTTPClient {
-   return [MyIncStoreClient clientFor:[NSURL URLWithString:@"http://localhost:8080/todo-server/"]];
+    return [MyIncStoreClient clientFor:[NSURL URLWithString:@"https://todo-aerogear.rhcloud.com/todo-server/"]];
 }
 
 @end
