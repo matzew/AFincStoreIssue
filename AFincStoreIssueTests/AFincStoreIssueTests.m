@@ -63,6 +63,9 @@
     [[NSNotificationCenter defaultCenter] addObserverForName:@"AFIncrementalStoreContextDidSaveRemoteValues" object:context queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         NSDictionary *userInfo = [note userInfo];
         
+        NSSaveChangesRequest *saveReq = [userInfo valueForKey:@"AFIncrementalStorePersistentStoreRequest"];
+        NSLog(@"\n\nSize: %u\n\n", [saveReq insertedObjects].count);
+        
         // the save was done..., server DID assign an ID:
         NSLog(@" Tag ID: %@", tag.tagId);
         
