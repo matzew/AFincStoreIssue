@@ -52,6 +52,27 @@
 
 
 
+// for post/put...
+-(NSDictionary *)representationOfAttributes:(NSDictionary *)attributes ofManagedObject:(NSManagedObject *)managedObject {
+    // get the given managed bean as key/valye store (dictionary)
+    NSDictionary *managedObjectRepresentation =  [[super representationOfAttributes:attributes ofManagedObject:managedObject] mutableCopy];
+    
+    // dictionary with key/value pairs, to be sent to the server
+    NSMutableDictionary *externalRepresentation = [NSMutableDictionary dictionaryWithCapacity:managedObjectRepresentation.count];
+    
+    if ([@"Tag" isEqualToString:managedObject.entity.name]) {
+        // the title
+        NSString *title =[managedObject valueForKey:@"title"];
+        [externalRepresentation setValue:title forKey:@"title"];
+        
+        // the id mapping
+        NSNumber *tagId = [managedObject valueForKey:@"tagId"];
+        [externalRepresentation setValue:tagId forKey:@"id"];
+        
+    }
+    
+    return externalRepresentation;
+}
 
 
 -(NSDictionary *)representationsForRelationshipsFromRepresentation:(NSDictionary *)representation ofEntity:(NSEntityDescription *)entity fromResponse:(NSHTTPURLResponse *)response {

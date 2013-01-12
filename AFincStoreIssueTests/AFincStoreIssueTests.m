@@ -52,72 +52,50 @@
     [super tearDown];
 }
 
-//- (void)xtestFetchTags
-//{
-//    NSManagedObjectContext *context = __managedObjectContext;
-//
-//
-//
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Tag"
-//                                              inManagedObjectContext:context];
-//    [fetchRequest setEntity:entity];
-//    NSError *error = nil;
-//
-//    [[NSNotificationCenter defaultCenter] addObserverForName:@"AFIncrementalStoreContextDidFetchRemoteValues" object:context queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-//        NSDictionary *userInfo = [note userInfo];
-//        NSArray *fetchedObjects = [userInfo objectForKey:@"AFIncrementalStoreFetchedObjectsKey"];
-//
-//        for(Tag *tag in fetchedObjects) {
-//            NSLog(@"Tag(%@) -> title: %@", tag.tagId, tag.title);
-//        }
-//
-//        _finishedFlag = YES;
-//    }];
-//
-//    [context executeFetchRequest:fetchRequest error:&error];
-//
-//    // keep the run loop going
-//    while(!_finishedFlag) {
-//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-//    }
-//}
-//
-- (void)testFetchTasks
+- (void)testSaveAndUpdateTag
 {
     NSManagedObjectContext *context = __managedObjectContext;
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Task"
-                                              inManagedObjectContext:context];
-    [fetchRequest setEntity:entity];
-    NSError *error = nil;
+    Tag *tag = [NSEntityDescription insertNewObjectForEntityForName:@"Tag" inManagedObjectContext:context];
+    tag.title = @"CD Tag";
+    tag.tagId = nil;
     
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"AFIncrementalStoreContextDidFetchRemoteValues" object:context queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+    [[NSNotificationCenter defaultCenter] addObserverForName:@"AFIncrementalStoreContextDidSaveRemoteValues" object:context queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         NSDictionary *userInfo = [note userInfo];
-        NSArray *fetchedObjects = [userInfo objectForKey:@"AFIncrementalStoreFetchedObjectsKey"];
         
-        for(Task *task in fetchedObjects) {
-            NSLog(@"Task(%@) -> title: %@ (desc: '%@')", task.taskId, task.title, task.desc);
-            
-            for(Tag *tag in task.tags) {
-                NSLog(@"YO!!! \n\n%@\n\n", tag.title);
-            }
-            
+        // the save was done..., server DID assign an ID:
+        NSLog(@" Tag ID: %@", tag.tagId);
+        
+        // update the title:
+        tag.title = @"Updated Tag";
+        
+        
+        // and save:
+        NSError *error = nil;
+        if ([context save:&error]) {
+            NSLog(@"The update was successful!");
+        } else {
+            NSLog(@"The update wasn't successful: %@", [error userInfo]);
+            //_finishedFlag = YES;
         }
-        
-        //_finishedFlag = YES;
         
     }];
     
-    [context executeFetchRequest:fetchRequest error:&error];
+    
+    NSError *error = nil;
+    if ([context save:&error]) {
+        NSLog(@"The save was successful!");
+        //_finishedFlag =YES;
+    } else {
+        NSLog(@"The save wasn't successful: %@", [error userInfo]);
+    }
     
     // keep the run loop going
     while(!_finishedFlag) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
+    
 }
-
 
 
 
